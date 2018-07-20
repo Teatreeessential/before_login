@@ -1,0 +1,78 @@
+
+<!--언어별 랭킹, 언어별 바이트 합-->
+
+<h1>프로필 상세 페이지</h1>
+<h1>회원프로필사진</h1>
+<%unless @user.user_image.nil?%>
+<p id="before_chart"><img src="<%=@user.user_image.thumb.url%>"></p>
+<%end%>
+<h1>자기소개</h1>
+<p><%=@user.user_contents%></p>
+<hr>
+
+<div id="loading">
+<%if @github_language.nil?%>
+    <img src="/Preloader_3.gif">
+<%else%>
+    <canvas id="myChart" width="400" height="400"></canvas>
+<%end%>
+</div>
+
+
+
+
+<h1><%=@user.user_name%>님의 보유 스킬</h1>
+<ul>
+<%@user.skills.each do |skill| %>
+    <li><%=skill.skill_contents%></li>  
+<%end%>
+</ul>
+<h1><%=@user.user_name%>님의 관심 카테고리</h1>
+<ul>
+<%@user.categories.each do |category| %>
+    <li><%=category.category_contents%></li>  
+<%end%>
+</ul>
+<h1><%=@user.user_name%>님의 경험치</h1>
+<p>경험치:<%=@user.user_point%></p>
+<p><%=@user.user_name%>님의 주소:<%=@user.address%></p>
+<p><%=@user.user_name%>님의 전화번호:<%=@user.tel%></p>
+<p><%=@user.user_name%>님의 나이:<%=@user.birth%></p>
+<h1><%=@user.user_name%>님의 포트폴리오</h1>
+<ul>
+<%@user.portfolios.each do |portfolio|%>
+<h3>포트폴리오 제목</h3>
+<li><a href="/users/<%=portfolio.id%>/portfolio_show"><%=portfolio.portfolio_title%></a></li>
+<h3>포트폴리오 사진</h3>
+<li><img src="<%=portfolio.portfolio_file.thumb.url%>"></li>
+<h3>포트폴리오 내용</h3>
+<li><%=portfolio.portfolio_contents%></li>
+<h3>포트폴리오 스킬</h3>
+<ul>
+    <%portfolio.skills.each do |skill|%>
+        <li><%=skill.skill_contents%></li>
+    <%end%>
+</ul>
+<%end%>
+</ul>
+<a href="/users/portfolio">포트폴리오 등록</a>
+<a href="/users/new">프로필 수정</a>
+<a href="/users/list">리스트로 이동</a>
+
+</ul>
+
+
+<script>
+    $(document).ready(function(){
+        
+        $.ajax({
+            url:"/users/github",
+            type:"POST"
+           
+        })
+        
+        
+    })
+</script>
+
+
